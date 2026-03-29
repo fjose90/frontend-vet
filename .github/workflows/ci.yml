@@ -32,6 +32,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Impede merge com erros de lint.
+      - name: Run lint
+        run: npm run lint
+
+      # Impede merge com arquivos fora do padrão de formatação.
+      - name: Check formatting
+        run: npm run format:check
+
       # Garante que o build de produção funciona no PR.
       - name: Build application
         run: npm run build
@@ -63,6 +71,14 @@ jobs:
       # Instala dependências de forma determinística via package-lock.json.
       - name: Install dependencies
         run: npm ci
+
+      # Impede deploy com erros de lint.
+      - name: Run lint
+        run: npm run lint
+
+      # Impede deploy com arquivos fora do padrão de formatação.
+      - name: Check formatting
+        run: npm run format:check
 
       # Garante que o build de produção funciona nas versões suportadas.
       - name: Build application
