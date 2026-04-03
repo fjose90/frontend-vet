@@ -52,7 +52,7 @@ jobs:
 
       # Testes opcionais: roda apenas quando o script existir.
       - name: Run tests (optional)
-        run: pnpm run test --if-present
+        run: pnpm run --if-present test
 
   # Job de main: valida compatibilidade (Node 22.x e 24.x) e Docker.
   build-main:
@@ -98,7 +98,7 @@ jobs:
 
       # Testes opcionais: roda apenas quando o script existir.
       - name: Run tests (optional)
-        run: pnpm run test --if-present
+        run: pnpm run --if-present test
 
       # Valida se a imagem Docker de deploy está buildando corretamente.
       - name: Build Docker image
