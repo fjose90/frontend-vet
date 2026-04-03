@@ -21,32 +21,36 @@ jobs:
       # Baixa o código do repositório.
       - uses: actions/checkout@v4
 
+      # Configura pnpm na versão definida no projeto.
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
       # Configura a versão do Node definida na matriz.
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: npm
+          cache: pnpm
 
-      # Instala dependências de forma determinística via package-lock.json.
+      # Instala dependências de forma determinística via pnpm-lock.yaml.
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       # Impede merge com erros de lint.
       - name: Run lint
-        run: npm run lint
+        run: pnpm run lint
 
       # Impede merge com arquivos fora do padrão de formatação.
       - name: Check formatting
-        run: npm run format:check
+        run: pnpm run format:check
 
       # Garante que o build de produção funciona no PR.
       - name: Build application
-        run: npm run build
+        run: pnpm run build
 
       # Testes opcionais: roda apenas quando o script existir.
       - name: Run tests (optional)
-        run: npm test --if-present
+        run: pnpm run --if-present test
 
   # Job de main: valida compatibilidade (Node 22.x e 24.x) e Docker.
   build-main:
@@ -61,32 +65,36 @@ jobs:
       # Baixa o código do repositório.
       - uses: actions/checkout@v4
 
+      # Configura pnpm na versão definida no projeto.
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
       # Configura a versão do Node definida na matriz.
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: npm
+          cache: pnpm
 
-      # Instala dependências de forma determinística via package-lock.json.
+      # Instala dependências de forma determinística via pnpm-lock.yaml.
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       # Impede deploy com erros de lint.
       - name: Run lint
-        run: npm run lint
+        run: pnpm run lint
 
       # Impede deploy com arquivos fora do padrão de formatação.
       - name: Check formatting
-        run: npm run format:check
+        run: pnpm run format:check
 
       # Garante que o build de produção funciona nas versões suportadas.
       - name: Build application
-        run: npm run build
+        run: pnpm run build
 
       # Testes opcionais: roda apenas quando o script existir.
       - name: Run tests (optional)
-        run: npm test --if-present
+        run: pnpm run --if-present test
 
       # Valida se a imagem Docker de deploy está buildando corretamente.
       - name: Build Docker image

@@ -5,16 +5,19 @@ FROM node:24.14.1-alpine AS builder
 WORKDIR /app
 
 # Copia os arquivos de dependências
-COPY package*.json ./
+COPY package.json pnpm-lock.yaml ./
 
-# Instala as dependências
-RUN npm ci
+# Evita hooks de git durante o build do container
+ENV HUSKY=0
+
+# Instala pnpm e dependências de forma determinística
+RUN corepack enable && corepack prepare pnpm@10.33.0 --activate && pnpm install --frozen-lockfile
 
 # Copia o código fonte
 COPY . .
 
 # Faz o build da aplicação
-RUN npm run build
+RUN pnpm run build
 
 # Estágio 2: Servidor de produção com caddy
 FROM caddy:2-alpine
