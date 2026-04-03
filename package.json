@@ -11,6 +11,8 @@
     "lint:fix": "eslint src --fix",
     "format": "prettier --write src",
     "format:check": "prettier --check src",
+    "ci:local": "pnpm install --frozen-lockfile && pnpm run lint && pnpm run format:check && pnpm run build && pnpm run --if-present test",
+    "ci:local:docker": "pnpm run ci:local && docker build -t frontend-vet:ci .",
     "prepare": "husky"
   },
   "devDependencies": {
