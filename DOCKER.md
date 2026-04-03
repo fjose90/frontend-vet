@@ -6,7 +6,7 @@
 2. **`Dockerfile`** - Configuração multi-stage para build otimizado
 3. **`.dockerignore`** - Arquivos ignorados no build do Docker
 4. **`docker-compose.yml`** - Orquestração simplificada
-5. **`nginx.conf`** - Configuração do servidor web com otimizações
+5. **`Caddyfile`** - Configuração do servidor web com otimizações
 
 ---
 
@@ -54,11 +54,11 @@ docker rm frontend-vet
 
 ### Dockerfile
 - **Estágio 1 (builder)**: Compila a aplicação TypeScript/Vite
-- **Estágio 2 (nginx)**: Serve os arquivos estáticos com nginx
+- **Estágio 2 (caddy)**: Serve os arquivos estáticos com Caddy
 - Resultado: Imagem pequena e otimizada (~25MB)
 
-### nginx.conf
-- Compressão gzip para melhor performance
+### Caddyfile
+- Compressão automática (zstd e gzip) para melhor performance
 - Cache de assets estáticos (1 ano)
 - Suporte para SPA (Single Page Application)
 - Headers de segurança

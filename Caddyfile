@@ -1,0 +1,20 @@
+:80 {
+	root * /usr/share/caddy
+	encode zstd gzip
+
+	@static {
+		path *.jpg *.jpeg *.png *.gif *.ico *.css *.js *.svg *.woff *.woff2 *.ttf *.eot
+	}
+	header @static Cache-Control "public, max-age=31536000, immutable"
+
+	# SPA fallback - todas as rotas retornam o index.html
+	try_files {path} /index.html
+	file_server
+
+	# Security headers
+	header {
+		X-Frame-Options "SAMEORIGIN"
+		X-Content-Type-Options "nosniff"
+		X-XSS-Protection "1; mode=block"
+	}
+}

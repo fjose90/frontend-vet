@@ -16,17 +16,17 @@ COPY . .
 # Faz o build da aplicação
 RUN npm run build
 
-# Estágio 2: Servidor de produção com nginx
-FROM nginx:alpine
+# Estágio 2: Servidor de produção com caddy
+FROM caddy:2-alpine
 
 # Copia os arquivos buildados do estágio anterior
-COPY --from=builder /app/dist /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/caddy
 
-# Copia a configuração personalizada do nginx
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copia a configuração personalizada do caddy
+COPY Caddyfile /etc/caddy/Caddyfile
 
 # Expõe a porta 80
 EXPOSE 80
 
-# Comando para rodar o nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Comando para rodar o caddy
+CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
