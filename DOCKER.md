@@ -35,7 +35,7 @@ docker-compose down
 docker build -t frontend-vet:latest .
 
 # 2. Rodar o container
-docker run -d -p 3000:80 --name frontend-vet frontend-vet:latest
+docker run -d -p 3000:8080 --name frontend-vet frontend-vet:latest
 
 # 3. Acesse no navegador:
 http://localhost:3000
